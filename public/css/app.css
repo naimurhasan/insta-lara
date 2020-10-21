@@ -10903,3 +10903,8 @@ a.text-dark:focus {
   }
 }
 
+[aria-label="&laquo; Previous"] svg,
+[aria-label="Next &raquo;"] svg {
+  width: 10px;
+}
+

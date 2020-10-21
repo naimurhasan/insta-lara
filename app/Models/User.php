@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewUserWelcome;
 
 class User extends Authenticatable
 {
@@ -41,4 +43,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            // create profile
+            $user->profile()->create([
+                'title' => $user->name
+            ]);
+            // send confirmation mail
+            Mail::to($user->email)->send(new NewUserWelcome($user->name));
+        });
+    }
+
+    public function following(){
+        return $this->belongsToMany('App\Models\Profile');
+    }
+
+    public function posts(){
+        return $this->hasMany('App\Models\Post')->orderBy('created_at', 'DESC');
+    }
+
+    public function profile(){
+        return $this->hasOne('App\Models\Profile');
+    }
+
 }
