@@ -1912,10 +1912,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['userId', 'follows'],
   mounted: function mounted() {
-    console.log('Component mounted.');
+    console.log('Follow Button mounted.');
   },
   data: function data() {
     return {
@@ -1928,7 +1930,15 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/follow/' + this.userId).then(function (response) {
         // handle success
-        _this.status = !_this.status;
+        //change the button text
+        _this.status = !_this.status; // change follower count
+
+        if (_this.status) {
+          _this.$parent.followerCountSet(1);
+        } else {
+          _this.$parent.followerCountSet(-1);
+        }
+
         console.log(response.data);
       })["catch"](function (error) {
         // handle error
@@ -1977,6 +1987,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowerCountComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FollowerCountComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['count'],
+  data: function data() {
+    return {
+      'followersCount': Number(this.count)
+    };
+  },
+  mounted: function mounted() {
+    console.log('Count Component mounted.');
+  },
+  methods: {
+    follwerCountSet: function follwerCountSet(count) {
+      this.followersCount += count;
+    }
+  },
+  computed: {
+    followersText: function followersText() {
+      return this.followersCount < 2 ? 'follower' : 'follwers';
+    }
   }
 });
 
@@ -37572,16 +37619,18 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "a",
-    {
-      staticClass: "btn btn-primary",
-      attrs: { href: "#" },
-      domProps: { textContent: _vm._s(_vm.followButtonText) },
-      on: { click: _vm.followUser }
-    },
-    [_vm._v("Follow")]
-  )
+  return _c("div", [
+    _c(
+      "a",
+      {
+        staticClass: "btn btn-primary",
+        attrs: { href: "#" },
+        domProps: { textContent: _vm._s(_vm.followButtonText) },
+        on: { click: _vm.followUser }
+      },
+      [_vm._v("Follow")]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -37631,6 +37680,33 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowerCountComponent.vue?vue&type=template&id=193d1e97&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FollowerCountComponent.vue?vue&type=template&id=193d1e97& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", { staticClass: "mr-3" }, [
+    _c("strong", [_vm._v(_vm._s(_vm.followersCount))]),
+    _vm._v(" " + _vm._s(_vm.followersText) + " ")
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -49826,6 +49902,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('button-component', __webpack_require__(/*! ./components/ButtonComponent.vue */ "./resources/js/components/ButtonComponent.vue")["default"]);
+Vue.component('follower-count-component', __webpack_require__(/*! ./components/FollowerCountComponent.vue */ "./resources/js/components/FollowerCountComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -49833,7 +49910,12 @@ Vue.component('button-component', __webpack_require__(/*! ./components/ButtonCom
  */
 
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  methods: {
+    followerCountSet: function followerCountSet(count) {
+      this.$refs.followercountcomponent.follwerCountSet(count);
+    }
+  }
 });
 
 /***/ }),
@@ -50016,6 +50098,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/FollowerCountComponent.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/FollowerCountComponent.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FollowerCountComponent_vue_vue_type_template_id_193d1e97___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FollowerCountComponent.vue?vue&type=template&id=193d1e97& */ "./resources/js/components/FollowerCountComponent.vue?vue&type=template&id=193d1e97&");
+/* harmony import */ var _FollowerCountComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FollowerCountComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/FollowerCountComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FollowerCountComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FollowerCountComponent_vue_vue_type_template_id_193d1e97___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FollowerCountComponent_vue_vue_type_template_id_193d1e97___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/FollowerCountComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/FollowerCountComponent.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/FollowerCountComponent.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerCountComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowerCountComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowerCountComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerCountComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/FollowerCountComponent.vue?vue&type=template&id=193d1e97&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/FollowerCountComponent.vue?vue&type=template&id=193d1e97& ***!
+  \*******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerCountComponent_vue_vue_type_template_id_193d1e97___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FollowerCountComponent.vue?vue&type=template&id=193d1e97& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FollowerCountComponent.vue?vue&type=template&id=193d1e97&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerCountComponent_vue_vue_type_template_id_193d1e97___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FollowerCountComponent_vue_vue_type_template_id_193d1e97___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

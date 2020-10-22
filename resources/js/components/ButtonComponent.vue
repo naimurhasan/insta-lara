@@ -1,12 +1,14 @@
 <template>
-    <a class="btn btn-primary" @click="followUser" href="#" v-text="followButtonText">Follow</a>
+    <div>
+        <a class="btn btn-primary" v-on:click="followUser" href="#" v-text="followButtonText">Follow</a>
+    </div>
 </template>
 
 <script>
     export default {
         props: ['userId', 'follows'],
         mounted() {
-            console.log('Component mounted.')
+            console.log('Follow Button mounted.')
         },
         data: function(){
             return {
@@ -18,7 +20,14 @@
                 axios.post('/follow/'+this.userId)
                 .then((response) => {
                     // handle success
+                    //change the button text
                     this.status = !this.status
+                    // change follower count
+                    if(this.status){
+                        this.$parent.followerCountSet(1)
+                    }else{
+                        this.$parent.followerCountSet(-1)
+                    }
                     console.log(response.data);
                 })
                 .catch((error) => {

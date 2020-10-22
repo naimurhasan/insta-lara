@@ -18,7 +18,7 @@
             </div>
             <div>
                 <span class="mr-3"><strong>{{ $postsCount }}</strong> posts</span>
-                <span class="mr-3"><strong>{{ $followersCount }}</strong> followers</span>
+                <follower-count-component ref="followercountcomponent" count="{{ $followersCount }}"></follower-count-component>
                 <span class="mr-3"><strong>{{ $followingCount }}</strong> following</span>   
             </div>
             <p class="mt-4"><strong><a href="{{ $user->profile->url }}">{{ $user->profile->url }}</a></strong></p>
